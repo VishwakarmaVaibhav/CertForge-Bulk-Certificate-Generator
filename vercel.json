@@ -1,11 +1,8 @@
 {
-  "version": 2,
-  "framework": "vite",
-  "builds": [
-    { "src": "package.json", "use": "@vercel/vite" }
-  ],
-  "routes": [
-    { "handle": "filesystem" },
-    { "src": "/(.*)", "dest": "/index.html" }
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
   ]
 }
