@@ -6,7 +6,7 @@ import {
   ChevronRight, ImageIcon, ImagePlus,
 } from 'lucide-react';
 
-const FONTS = ['Helvetica', 'Times New Roman', 'Courier'];
+const FONTS = ['Helvetica', 'Times New Roman', 'Courier', 'Roboto', 'Montserrat', 'Open Sans', 'Playfair Display'];
 const FONT_SIZES = [16, 20, 24, 28, 32, 40, 48, 56, 64, 72];
 const SNAP_TOLERANCE = 15;
 
@@ -280,37 +280,39 @@ export default function DesignerPanel() {
   return (
     <div className="flex-1 flex flex-col animate-fade-in overflow-hidden">
       {/* Header */}
-      <div className="flex items-center justify-between px-8 py-5 border-b border-dark-600/50">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 px-6 md:px-8 py-5 border-b border-dark-600/50">
         <div>
           <h2 className="text-lg font-semibold text-white tracking-tight">Template Designer</h2>
           <p className="text-xs text-dark-300 mt-0.5">Upload a background and add text or image placeholders</p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-2 md:gap-3 w-full sm:w-auto">
           <button
             onClick={() => imageInputRef.current?.click()}
             disabled={!state.backgroundImage}
-            className="flex items-center gap-2 px-4 py-2 rounded-lg bg-dark-600 border border-dark-500 text-dark-100 text-sm font-medium
+            className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-3 md:px-4 py-2 rounded-lg bg-dark-600 border border-dark-500 text-dark-100 text-xs md:text-sm font-medium
               hover:bg-dark-500 transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
           >
             <ImagePlus size={15} />
-            Add Image Element
+            <span className="hidden md:inline">Add Image Element</span>
+            <span className="md:hidden">Image</span>
           </button>
           <input ref={imageInputRef} type="file" accept="image/png,image/jpeg,image/jpg" className="hidden" onChange={handleAddImage} />
           
           <button
             onClick={addTextElement}
             disabled={!state.backgroundImage}
-            className="flex items-center gap-2 px-4 py-2 rounded-lg bg-dark-600 border border-dark-500 text-dark-100 text-sm font-medium
+            className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-3 md:px-4 py-2 rounded-lg bg-dark-600 border border-dark-500 text-dark-100 text-xs md:text-sm font-medium
               hover:bg-dark-500 transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
           >
             <Plus size={15} />
-            Add Text Field
+            <span className="hidden md:inline">Add Text Field</span>
+            <span className="md:hidden">Text</span>
           </button>
           
           <button
             onClick={() => setStep(1)}
             disabled={!canProceed}
-            className="flex items-center gap-2 px-5 py-2 ml-4 rounded-lg bg-accent-500 text-white text-sm font-semibold
+            className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 md:px-5 py-2 sm:ml-2 md:ml-4 rounded-lg bg-accent-500 text-white text-xs md:text-sm font-semibold
               hover:bg-accent-400 transition-all duration-200 shadow-[0_0_20px_rgba(124,58,237,0.3)]
               disabled:opacity-40 disabled:cursor-not-allowed disabled:shadow-none"
           >
@@ -321,13 +323,13 @@ export default function DesignerPanel() {
       </div>
 
       {/* Main area */}
-      <div className="flex-1 flex overflow-hidden">
+      <div className="flex-1 flex flex-col md:flex-row overflow-hidden relative">
         {/* Canvas area */}
-        <div className="flex-1 flex items-center justify-center p-4 overflow-auto" ref={containerRef}>
+        <div className="flex-1 flex items-center justify-center p-4 overflow-auto relative" ref={containerRef}>
           {!state.backgroundImage ? (
             <button
               onClick={() => fileInputRef.current?.click()}
-              className="group flex flex-col items-center gap-5 p-12 rounded-2xl border-2 border-dashed border-dark-500
+              className="group flex flex-col items-center gap-4 md:gap-5 p-8 md:p-12 rounded-2xl border-2 border-dashed border-dark-500
                 hover:border-accent-400/50 transition-all duration-300 cursor-pointer max-w-md"
             >
               <div className="w-16 h-16 rounded-2xl bg-dark-600 flex items-center justify-center
@@ -434,7 +436,7 @@ export default function DesignerPanel() {
 
         {/* Properties panel */}
         {selectedEl && (
-          <div className="w-[280px] shrink-0 glass-light border-l border-dark-600/50 p-5 flex flex-col gap-5 animate-slide-in overflow-y-auto">
+          <div className="w-full h-1/2 md:h-auto md:w-[280px] shrink-0 glass-light border-t md:border-t-0 md:border-l border-dark-600/50 p-5 flex flex-col gap-5 overflow-y-auto z-10 slide-in-bottom md:slide-in-right">
             <div className="flex items-center justify-between">
               <h3 className="text-sm font-semibold text-white flex items-center gap-2">
                 {selectedEl.type === 'text' ? <Type size={14} className="text-accent-400" /> : <ImagePlus size={14} className="text-accent-400" />}

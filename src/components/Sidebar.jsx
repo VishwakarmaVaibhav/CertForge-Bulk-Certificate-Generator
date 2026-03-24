@@ -18,9 +18,9 @@ export default function Sidebar() {
   };
 
   return (
-    <aside className="w-[260px] glass flex flex-col py-8 px-5 shrink-0">
+    <aside className="w-full md:w-[260px] h-auto md:h-full flex-none glass flex flex-col py-4 px-4 md:py-8 md:px-5 shrink-0 z-20 border-b border-dark-600/50 md:border-b-0 md:border-r">
       {/* Logo */}
-      <div className="mb-10 px-2">
+      <div className="mb-4 md:mb-10 px-2 flex items-center justify-between md:justify-start">
         <h1 className="text-xl font-bold text-white tracking-tight flex items-center gap-2">
           <img
             src="/logo.png"
@@ -29,11 +29,11 @@ export default function Sidebar() {
           />
           CertForge
         </h1>
-        <p className="text-xs text-dark-300 mt-1 ml-10">Bulk Certificate Generator</p>
+        <p className="hidden md:block text-xs text-dark-300 mt-1 ml-10">Bulk Certificate</p>
       </div>
 
       {/* Steps */}
-      <nav className="flex-1 flex flex-col gap-1">
+      <nav className="flex md:flex-1 flex-row md:flex-col gap-2 md:gap-1 overflow-x-auto hide-scrollbar pb-2 md:pb-0">
         {steps.map((step, index) => {
           const isActive = state.currentStep === step.id;
           const isCompleted = state.currentStep > step.id;
@@ -46,7 +46,7 @@ export default function Sidebar() {
               onClick={() => isClickable && setStep(step.id)}
               disabled={!isClickable}
               className={`
-                group relative flex items-center gap-3 px-4 py-3 rounded-xl text-left
+                group relative flex min-w-[140px] md:min-w-0 flex-1 md:flex-none items-center gap-3 px-3 py-2.5 md:px-4 md:py-3 rounded-xl text-left
                 transition-all duration-200 ease-out
                 ${isActive
                   ? 'bg-accent-500/15 text-white'
@@ -58,9 +58,9 @@ export default function Sidebar() {
                 }
               `}
             >
-              {/* Step connector line */}
+              {/* Step connector line (desktop only) */}
               {index < steps.length - 1 && (
-                <div className={`absolute left-[29px] top-[42px] w-[2px] h-[14px] rounded-full transition-colors duration-300 ${
+                <div className={`hidden md:block absolute left-[29px] top-[42px] w-[2px] h-[14px] rounded-full transition-colors duration-300 ${
                   isCompleted ? 'bg-accent-500/40' : 'bg-dark-500'
                 }`} />
               )}
@@ -97,7 +97,7 @@ export default function Sidebar() {
       </nav>
 
       {/* Footer */}
-      <div className="mt-auto px-2 pt-6 border-t border-dark-500/50">
+      <div className="hidden md:block mt-auto px-2 pt-6 border-t border-dark-500/50">
         <p className="text-[11px] text-dark-400 leading-relaxed mb-2">
           100% client-side. Your data never leaves the browser.
         </p>

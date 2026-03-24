@@ -1,4 +1,5 @@
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
+import fontkit from '@pdf-lib/fontkit';
 import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
 
@@ -91,6 +92,31 @@ export async function generateCertificates({
     }
   }
 
+  // Pre-load custom fonts
+  const requiredCustomFonts = new Set();
+  for (const el of elements) {
+    if (el.type === 'text' && ['Roboto', 'Montserrat', 'Open Sans', 'Playfair Display'].includes(el.fontFamily)) {
+      requiredCustomFonts.add(el.fontFamily);
+    }
+  }
+
+  const customFontBytesMap = {};
+  const fontNameMap = {
+    'Roboto': '/fonts/Roboto.ttf',
+    'Montserrat': '/fonts/Montserrat.ttf',
+    'Open Sans': '/fonts/OpenSans.ttf',
+    'Playfair Display': '/fonts/PlayfairDisplay.ttf'
+  };
+
+  for (const family of requiredCustomFonts) {
+    try {
+      const res = await fetch(fontNameMap[family]);
+      customFontBytesMap[family] = await res.arrayBuffer();
+    } catch (err) {
+      console.error(`Failed to load font ${family}`, err);
+    }
+  }
+
   const limit = isPreview ? 1 : csvData.length;
 
   for (let i = 0; i < limit; i += BATCH_SIZE) {
@@ -100,6 +126,7 @@ export async function generateCertificates({
       const row = csvData[j] || {};
 
       const pdfDoc = await PDFDocument.create();
+      pdfDoc.registerFontkit(fontkit);
       const page = pdfDoc.addPage([imageWidth, imageHeight]);
 
       let embeddedImage = isPng ? await pdfDoc.embedPng(bgBytes) : await pdfDoc.embedJpg(bgBytes);
@@ -111,8 +138,13 @@ export async function generateCertificates({
           const csvHeader = placeholder ? mapping[placeholder] : null;
           const textValue = csvHeader ? (row[csvHeader] || '') : el.text;
 
-          const fontKey = getStandardFont(el.fontFamily, el.fontWeight);
-          const font = await pdfDoc.embedFont(fontKey);
+          let font;
+          if (customFontBytesMap[el.fontFamily]) {
+            font = await pdfDoc.embedFont(customFontBytesMap[el.fontFamily]);
+          } else {
+            const fontKey = getStandardFont(el.fontFamily, el.fontWeight);
+            font = await pdfDoc.embedFont(fontKey);
+          }
 
           const pdfX = el.x;
           // Canvas origin is top-left, PDF origin is bottom-left

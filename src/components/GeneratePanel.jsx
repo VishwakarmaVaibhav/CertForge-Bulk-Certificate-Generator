@@ -71,14 +71,14 @@ export default function GeneratePanel() {
   return (
     <div className="flex-1 flex flex-col animate-fade-in overflow-hidden">
       {/* Header */}
-      <div className="flex items-center justify-between px-8 py-5 border-b border-dark-600/50">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 px-6 md:px-8 py-5 border-b border-dark-600/50">
         <div>
           <h2 className="text-lg font-semibold text-white tracking-tight">Generate Certificates</h2>
           <p className="text-xs text-dark-300 mt-0.5">Review and generate your certificates</p>
         </div>
         <button
           onClick={() => { resetGeneration(); setStep(1); }}
-          className="flex items-center gap-2 px-4 py-2 rounded-lg bg-dark-600 text-dark-100 text-sm font-medium
+          className="w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-dark-600 text-dark-100 text-sm font-medium
             hover:bg-dark-500 transition-all duration-200"
         >
           <ChevronLeft size={15} />
@@ -87,13 +87,13 @@ export default function GeneratePanel() {
       </div>
 
       {/* Content */}
-      <div className="flex-1 overflow-auto p-8 flex items-center justify-center">
+      <div className="flex-1 overflow-auto p-4 md:p-8 flex items-center justify-center">
         <div className="max-w-lg w-full flex flex-col gap-8">
 
           {/* Summary cards */}
           {!state.isGenerating && !state.isComplete && (
             <>
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div className="flex flex-col items-center gap-2 p-4 rounded-xl glass-light">
                   <Image size={20} className="text-accent-400" />
                   <span className="text-xs text-dark-300">Template</span>
@@ -131,7 +131,7 @@ export default function GeneratePanel() {
               </div>
 
               {/* Action buttons */}
-              <div className="flex gap-4">
+              <div className="flex flex-col sm:flex-row gap-4">
                 <button
                   onClick={handlePreview}
                   disabled={isPreviewing}
@@ -200,20 +200,20 @@ export default function GeneratePanel() {
                   {state.totalCount} certificates generated and downloaded as a ZIP file.
                 </p>
               </div>
-              <div className="flex items-center gap-3">
+              <div className="flex flex-col sm:flex-row w-full sm:w-auto items-center gap-3">
                 <button
                   onClick={() => {
                     resetGeneration();
                     setStep(0);
                   }}
-                  className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-dark-600 text-dark-100 text-sm font-medium
+                  className="w-full sm:w-auto flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg bg-dark-600 text-dark-100 text-sm font-medium
                     hover:bg-dark-500 transition-all duration-200"
                 >
                   Start Over
                 </button>
                 <button
                   onClick={handleGenerate}
-                  className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-accent-500 text-white text-sm font-semibold
+                  className="w-full sm:w-auto flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg bg-accent-500 text-white text-sm font-semibold
                     hover:bg-accent-400 transition-all duration-200"
                 >
                   <Download size={15} />

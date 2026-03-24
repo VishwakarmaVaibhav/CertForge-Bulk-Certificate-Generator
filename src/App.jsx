@@ -8,7 +8,7 @@ function AppContent() {
   const { state } = useAppContext();
 
   return (
-    <div className="flex h-screen bg-dark-900 overflow-hidden">
+    <div className="flex flex-col md:flex-row h-screen bg-dark-900 text-white overflow-hidden font-sans">
       <Sidebar />
       <main className="flex-1 flex flex-col bg-dark-800 overflow-hidden">
         {state.currentStep === 0 && <DesignerPanel />}
