@@ -1,0 +1,107 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Inter', system-ui, sans-serif;
+  
+  --color-dark-900: #0a0a0f;
+  --color-dark-800: #12121a;
+  --color-dark-700: #1a1a25;
+  --color-dark-600: #22222f;
+  --color-dark-500: #2a2a3a;
+  --color-dark-400: #3a3a4d;
+  --color-dark-300: #5a5a70;
+  --color-dark-200: #8a8a9e;
+  --color-dark-100: #b0b0c0;
+  
+  --color-accent-500: #7c3aed;
+  --color-accent-400: #8b5cf6;
+  --color-accent-300: #a78bfa;
+  --color-accent-200: #c4b5fd;
+  --color-accent-glow: rgba(124, 58, 237, 0.25);
+  
+  --color-emerald-500: #10b981;
+  --color-emerald-400: #34d399;
+  --color-emerald-glow: rgba(16, 185, 129, 0.25);
+  
+  --color-rose-500: #f43f5e;
+  --color-rose-400: #fb7185;
+  
+  --color-amber-500: #f59e0b;
+  --color-amber-400: #fbbf24;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-dark-500) transparent;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--color-dark-900);
+  color: var(--color-dark-100);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
+  height: 100vh;
+}
+
+#root {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Custom animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-12px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 15px var(--color-accent-glow); }
+  50% { box-shadow: 0 0 30px var(--color-accent-glow), 0 0 60px rgba(124, 58, 237, 0.1); }
+}
+
+@keyframes progress-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+.animate-slide-in {
+  animation: slideIn 0.3s ease-out forwards;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.glass {
+  background: rgba(18, 18, 26, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.glass-light {
+  background: rgba(26, 26, 37, 0.5);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.progress-bar-shimmer {
+  background: linear-gradient(90deg, var(--color-accent-500) 0%, var(--color-accent-300) 50%, var(--color-accent-500) 100%);
+  background-size: 200% 100%;
+  animation: progress-shimmer 1.5s ease-in-out infinite;
+}
